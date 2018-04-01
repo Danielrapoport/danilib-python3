@@ -89,14 +89,6 @@ class FirstDegree(Equation):
             return solution
         else:
             return ConstDegree(solution, self.exp).getY(x)
-"""
-class SecondDegree(Equation):
-    def __init__(self, elements, exp=1):
-
-        super().__init__(elements, exp)
-    def delta(self):
-        return self.elements[1] ** 2 - 4 * self.elements[0] * self.elements[2]
-"""
 #list statistics functions
 def avg(x):
     return sum(x)/len(x)
