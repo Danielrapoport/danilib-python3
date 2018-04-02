@@ -1,6 +1,7 @@
 # Daniel Rapoport
 from abc import *
 import random
+import math
 #Switch (Java) / Case (Ruby)
 class Case:
     def __init__(self, x):
@@ -89,6 +90,43 @@ class FirstDegree(Equation):
             return solution
         else:
             return ConstDegree(solution, self.exp).getY(x)
+
+# f(x) = ax² + bx + c
+#Indexes: a=2 b=1 c=0
+class SecondDegree(Equation):
+    def __init__(self, elements, exp=1):
+        if elements[2] == 0:
+            raise Exception()
+        super().__init__(elements, exp)
+    def delta(self):
+        return self.elements[1] ** 2 - 4 * self.elements[0] * self.elements[2]
+    def bhaskara(self):
+        first_element = (-self.elements[1] + self.delta() ** (1/2)) / (2 * self.elements[2])
+        second_element = (-self.elements[1] - self.delta() ** (1/2)) / (2 * self.elements[2])
+        return [first_element, second_element]
+    def solve(self):
+        if self.delta() < 0:
+            raise Exception() # can't solve with delta lower than zero!
+        else:
+            return list(map(lambda val: ConstDegree([val], self.exp).solve(), self.bhaskara()))
+    def vertex(self):
+        # Xv = -b / 2a ; Yv = -Delta / 4a
+        vertex = [-self.elements[1]/ (2*self.elements[2]), -self.delta()/(4*self.elements[2])]
+        return list(map(lambda val: ConstDegree([val], self.exp).solve(), vertex))
+    def in_this_range(self, y):
+        if self.elements[2] == 0:
+            raise Exception() # Ax² can't be zero!
+        elif self.elements[2] < 0:
+            if y > self.vertex()[1]:
+                return False
+        else:
+            if y < self.vertex()[1]:
+                return False
+        return True
+    def getY(self, x):
+        this_y = self.elements[2] *x**2 + self.elements[1] *x + self.elements[0]
+        return ConstDegree([this_y], self.exp).solve()
+
 #list statistics functions
 def avg(x):
     return sum(x)/len(x)
