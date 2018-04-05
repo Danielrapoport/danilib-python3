@@ -214,3 +214,40 @@ def factorise(x):
                 x /= value
             del value
     return rs
+
+#math functions
+def factorial(x):
+    if x == 0 or x == 1:
+        return 1
+    return x * factorial(x-1)
+
+def fibonacci(x):
+    if x == 0 or x == 1:
+        return 1
+    return fibonacci(x-1) + fibonacci(x-2)
+
+#exponent functions
+def sqrt(x):
+    return x ** (1/2)
+
+def square(x):
+    return x ** 2
+
+# $$$ functions
+def get_money_after_variation(money, interest, times):
+    return money * (1 + interest) ** times
+
+def get_money_before_variation(money, interest, times):
+    return money / ((1+interest) ** times)
+
+def make_discount(start, off):
+    return start * (1 - off)
+
+def get_before_discount(end, off):
+    return end / (1 - off)
+
+# !Convert to list, tupple or set!
+def pay_with_periods(normal, tax, times):
+    absolute = normal / times
+    for period in range(1, times+1):
+        yield get_money_after_variation(absolute, tax, period)
